@@ -48,7 +48,7 @@
 
         performanceRun = () => {
             let start = Date.now();
-            run()
+            run();
             console.log( (Date.now() - start) / 1000 );
         }
 
