@@ -5,7 +5,7 @@
         if( !numberOfDoors ) throw Error('Argument missing: How many number of doors?');
         if( isNaN( numberOfDoors ) ) throw Error('Wrong datatype: Argument must be a number');
 
-        let doors = Array( parseInt( numberOfDoors ) ).fill( false ) //initially closed
+        let doors = Array( parseInt( numberOfDoors ) ).fill( false ); //initially closed
         let leap = 1;
 
         run = () => {
@@ -47,15 +47,13 @@
         }
 
         performanceRun = () => {
-            // console.timeStamp(`TESTING ${numberOfDoors} DOORS`);
             let start = Date.now();
-            run()
-            // console.timeStamp(`TESTING ${numberOfDoors} DOORS`);
+            run();
             console.log( (Date.now() - start) / 1000 );
         }
 
         //run main function
-        performanceRun();
+        run();
 
 
     }
