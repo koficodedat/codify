@@ -1,6 +1,8 @@
+const performance = require('./performance');
 (
     () => {
         const numberOfDoors = process.argv.slice(2)[0];
+        const withP = process.argv.slice(2)[1];
 
         if( !numberOfDoors ) throw Error('Argument missing: How many number of doors?');
         if( isNaN( numberOfDoors ) ) throw Error('Wrong datatype: Argument must be a number');
@@ -14,9 +16,10 @@
                 cycle();
                 updateLeap();
             }
+            console.log(`Input: ${numberOfDoors} door(s).`)
 
             console.log( 
-                'open doors: ', 
+                'Open doors: ', 
                 doors.map( 
                     (door, index) => {
                         if( door ) return index;
@@ -25,7 +28,7 @@
                 .filter( doorNumber => doorNumber )
             );
 
-            console.log( `closed doors: every door between 0 and ${numberOfDoors} which is not in the open door list` );
+            console.log( `Closed doors: every door between 0 and ${numberOfDoors} which is not in the open door list` );
         }
 
         cycle = () => {
@@ -52,8 +55,17 @@
             console.log( (Date.now() - start) / 1000 );
         }
 
-        //run main function
-        run();
+    //main
+      switch( withP ){
+        case '-p':
+          performance( run );
+          break;
+        case undefined:
+          run();
+          break;
+        default: 
+            return 'should never come here but if it does.... oh well';
+    }
 
 
     }

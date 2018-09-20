@@ -1,9 +1,11 @@
+const performance = require('./performance');
 (
     () => {
 
         const inputs = process.argv.slice(2);
 
         const command = inputs[0];
+        const withP = inputs[2];
         
         if( !(command === 'c' || command === 'uc') ) throw Error("Expteced either 'c' or 'uc' as command");
 
@@ -30,24 +32,26 @@
     
             });
 
-            console.log(`compressed: ${compressed}`);
+            console.log(`Input: ${input}.`)
+            console.log(`Output: compressed: ${compressed}`);
         }
 
 
         uncompress = ( string_ ) => {
             let uncompressed = [];
 
-            let input = string_.split(/([A-Za-z])/);
+            let stringWithSplit = string_.split(/([A-Za-z])/);
 
-            for( let i = 0; i < input.length; i += 2 ){
-                const times = input[i];
-                const letter = input[i + 1];
+            for( let i = 0; i < stringWithSplit.length; i += 2 ){
+                const times = stringWithSplit[i];
+                const letter = stringWithSplit[i + 1];
                 if( times ){
                     uncompressed = uncompressed.concat( buildChunk( letter, times ) ); 
                 }
             }
 
-            console.log(`uncompressed: ${uncompressed.join('')}`);
+            console.log(`Input: ${stringWithSplit.join('')}.`)
+            console.log(`Output: uncompressed: ${uncompressed.join('')}.`);
         }
 
         buildChunk = ( letter, times ) => {
@@ -63,14 +67,24 @@
             return result;
         }
 
+        let run = null;
+
         //main
         switch( command ){
             case 'c':
-                const asArray = input.split('');
-                compress( asArray );
+                run = () => {
+                    const asArray = input.split('');
+                    compress( asArray );
+                } 
+                if( withP === '-p' ) performance( run );
+                else run();
                 break;
             case 'uc':
-                uncompress( input );
+                run = () => {
+                    uncompress( input );
+                } 
+                if( withP === '-p' ) performance( run );
+                else run();
                 break;
             default: 
                 return 'should never come here but if it does.... oh well';
